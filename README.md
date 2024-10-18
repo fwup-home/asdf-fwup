@@ -1,31 +1,29 @@
-<div align="center">
-
-# asdf-fwup [![Build](https://github.com/bjyoungblood/asdf-fwup/actions/workflows/build.yml/badge.svg)](https://github.com/bjyoungblood/asdf-fwup/actions/workflows/build.yml) [![Lint](https://github.com/bjyoungblood/asdf-fwup/actions/workflows/lint.yml/badge.svg)](https://github.com/bjyoungblood/asdf-fwup/actions/workflows/lint.yml)
+# asdf-fwup [![Build](https://github.com/fwup-home/asdf-fwup/actions/workflows/build.yml/badge.svg)](https://github.com/fwup-home/asdf-fwup/actions/workflows/build.yml) [![Lint](https://github.com/fwup-home/asdf-fwup/actions/workflows/lint.yml/badge.svg)](https://github.com/fwup-home/asdf-fwup/actions/workflows/lint.yml)
 
 [fwup](https://github.com/fwup-home/fwup) plugin for the [asdf version manager](https://asdf-vm.com).
 
 </div>
 
-# Contents
+## Contents
 
 - [Dependencies](#dependencies)
 - [Install](#install)
 
-# Dependencies
+## Dependencies
 
-## Linux
+### Linux
 
 ```bash
 sudo apt-get install curl build-essential autoconf pkg-config libtool mtools unzip zip help2man libconfuse-dev libarchive-dev xdelta3 dosfstools
 ```
 
-## MacOS
+### MacOS
 
 ```bash
 brew install confuse libarchive pkg-config automake
 ```
 
-# Install
+## Install
 
 Plugin:
 
