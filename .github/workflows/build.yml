@@ -16,7 +16,11 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
+      - run: sudo apt-get install curl build-essential autoconf pkg-config libtool mtools unzip zip help2man libconfuse-dev libarchive-dev xdelta3 dosfstools
+        if: matrix.os == 'ubuntu-latest'
+      - run: brew install confuse libarchive pkg-config automake
+        if: matrix.os == 'macos-latest'
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v2
         with:
-          command: fwup --help
+          command: fwup --version
