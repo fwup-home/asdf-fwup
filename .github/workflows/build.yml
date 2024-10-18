@@ -21,6 +21,6 @@ jobs:
       - run: brew install confuse libarchive pkg-config automake
         if: matrix.os == 'macos-latest'
       - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v2
+        uses: asdf-vm/actions/plugin-test@v3
         with:
           command: fwup --version
