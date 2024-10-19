@@ -16,7 +16,7 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - run: sudo apt-get install curl build-essential autoconf pkg-config libtool mtools unzip zip help2man libconfuse-dev libarchive-dev xdelta3 dosfstools
+      - run: sudo apt-get install autoconf pkg-config help2man libconfuse-dev libarchive-dev
         if: matrix.os == 'ubuntu-latest'
       - run: brew install confuse libarchive pkg-config automake
         if: matrix.os == 'macos-latest'

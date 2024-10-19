@@ -14,7 +14,7 @@
 ### Linux
 
 ```bash
-sudo apt-get install curl build-essential autoconf pkg-config libtool mtools unzip zip help2man libconfuse-dev libarchive-dev xdelta3 dosfstools
+sudo apt-get install autoconf pkg-config help2man libconfuse-dev libarchive-dev
 ```
 
 ### MacOS
