@@ -28,8 +28,6 @@ brew install confuse libarchive pkg-config automake
 Plugin:
 
 ```shell
-asdf plugin add fwup
-# or
 asdf plugin add fwup https://github.com/fwup-home/asdf-fwup.git
 ```
 
