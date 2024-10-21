@@ -44,11 +44,11 @@ mise plugin install fwup https://github.com/fwup-home/asdf-fwup.git
 # Show all installable versions
 asdf list-all fwup
 
-# Install specific version
-asdf install fwup 1.11.0
+# Install the latest version
+asdf install fwup latest
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global fwup 1.11.0
+asdf global fwup latest
 
 # Now fwup commands are available
 fwup --version
