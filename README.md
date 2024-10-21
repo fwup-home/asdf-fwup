@@ -1,6 +1,6 @@
 # asdf-fwup [![Build](https://github.com/fwup-home/asdf-fwup/actions/workflows/build.yml/badge.svg)](https://github.com/fwup-home/asdf-fwup/actions/workflows/build.yml) [![Lint](https://github.com/fwup-home/asdf-fwup/actions/workflows/lint.yml/badge.svg)](https://github.com/fwup-home/asdf-fwup/actions/workflows/lint.yml)
 
-[fwup](https://github.com/fwup-home/fwup) plugin for the [asdf version manager](https://asdf-vm.com).
+This is the [fwup](https://github.com/fwup-home/fwup) plugin for the [asdf](https://asdf-vm.com) and [mise-en-place](https://mise.jdx.dev/) package managers.
 
 </div>
 
@@ -8,6 +8,7 @@
 
 - [Dependencies](#dependencies)
 - [Install](#install)
+- [Usage](#usage)
 
 ## Dependencies
 
@@ -31,21 +32,26 @@ Plugin:
 asdf plugin add fwup https://github.com/fwup-home/asdf-fwup.git
 ```
 
-fwup:
+or
+
+```shell
+mise plugin install fwup https://github.com/fwup-home/asdf-fwup.git
+```
+
+## Usage
 
 ```shell
 # Show all installable versions
 asdf list-all fwup
 
 # Install specific version
-asdf install fwup latest
+asdf install fwup 1.11.0
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global fwup latest
+asdf global fwup 1.11.0
 
 # Now fwup commands are available
 fwup --version
 ```
 
-Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
-install & manage versions.
+Check the [asdf](https://github.com/asdf-vm/asdf) and [mise](https://mise.jdx.dev/about.html) instructions on how to install & manage versions.
