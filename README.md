@@ -66,11 +66,12 @@ sudo $(asdf which fwup) --version
 ```
 
 For a more permanent solution that will work with other `asdf`-managed tools, you can modify your
-`sudoers` policy by following these steps:
+`sudoers` policy by the steps below.
 
-1. Ensure you have an explicit `ASDF_DATA_DIR` set in your environment. You can
-   check this by running `echo $ASDF_DATA_DIR`. If nothing is printed, add
-   `export ASDF_DATA_DIR="$HOME/.asdf"` to your shell config (`~/.bashrc`, `~/.zshrc`, etc.)
+**NOTE**: if you're using asdf 0.15 or earlier, use `ASDF_DIR` instead of `ASDF_DATA_DIR`.
+
+1. Ensure you have `ASDF_DATA_DIR` set explicitly in your shell config (`~/.bashrc`,
+   `~/.zshrc`). To use the default location, add `export ASDF_DATA_DIR="$HOME/.asdf"`
 2. Run `sudo visudo /etc/sudoers.d/01-asdf` and adding the following:
    ```
    Defaults:YOUR_USERNAME secure_path = /home/YOUR_USERNAME/.asdf/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
