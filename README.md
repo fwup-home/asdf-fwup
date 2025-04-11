@@ -75,5 +75,5 @@ For a more permanent solution that will work with other `asdf`-managed tools, yo
 2. Run `sudo visudo /etc/sudoers.d/01-asdf` and adding the following:
    ```
    Defaults:YOUR_USERNAME secure_path = /home/YOUR_USERNAME/.asdf/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   Defaults:YOUR_USERNAME env_keep += "ASDF_DATA_DIR"
+   Defaults:YOUR_USERNAME env_keep += "ASDF_DIR ASDF_DATA_DIR"
    ```

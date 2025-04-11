@@ -7,8 +7,37 @@ on:
   pull_request:
 
 jobs:
-  plugin_test:
-    name: asdf plugin test
+  plugin_test_asdf_0_16:
+    name: plugin test (asdf >= 0.16)
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install autoconf pkg-config help2man libconfuse-dev libarchive-dev
+        if: matrix.os == 'ubuntu-latest'
+      - run: brew install confuse libarchive pkg-config automake
+        if: matrix.os == 'macos-latest'
+      - name: Install asdf
+        # An action supporting 0.16 hasn't been released yet, but there's partial
+        # support. The plugin-test action does not work yet, but at least the setup
+        # action does.
+        uses: asdf-vm/actions/setup@9cd779f40fe38688dd19505ccbc4eaaf018b44e7
+        with:
+          asdf_version: latest
+      - name: Install plugin
+        # 0.16 doesn't appear to support symlinked plugins properly (you can install
+        # tools with a symlinked plugin, but they don't get shimmed correctly)
+        run: mkdir -p "$ASDF_DATA_DIR/plugins" && cp -r "$(pwd)" "$ASDF_DATA_DIR/plugins/fwup"
+      - name: Install fwup
+        run: asdf set fwup 1.12.0 && asdf install fwup
+      - name: Verify fwup
+        run: fwup --version
+  plugin_test_asdf_0_15:
+    name: plugin test (asdf < 0.16)
     strategy:
       matrix:
         os:
@@ -23,4 +52,6 @@ jobs:
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v3
         with:
+          asdf_branch: v0.15.0
+          version: 1.12.0
           command: fwup --version

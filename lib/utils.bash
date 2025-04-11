@@ -151,7 +151,7 @@ EOF
   2. Using visudo, add the following lines to /etc/sudoers.d/01-asdf or /etc/sudoers:
 
      Defaults:$USER    secure_path="$asdf_data_dir/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-     Defaults:$USER    env_keep += "ASDF_DATA_DIR"
+     Defaults:$USER    env_keep += "ASDF_DIR ASDF_DATA_DIR"
 
 EOF
 }
