@@ -99,8 +99,6 @@ post_install_instructions() {
 		return
 	fi
 
-	asdf_data_dir="${ASDF_DATA_DIR:-$HOME/.asdf}"
-
 	cat <<EOF
 ******* IMPORTANT: Usage with sudo ********
 By default, tools installed with asdf are not available when using sudo since
@@ -118,49 +116,53 @@ asdf-managed tools.
 
 EOF
 
-	# if the ASDF_DATA_DIR variable exists, then add instructions to add it to
-	# the shell config
+	asdf_data_dir="${ASDF_DATA_DIR:-${ASDF_DIR:-$HOME/.asdf}}"
 
 	case "$SHELL" in
 	*/zsh)
 		# shellcheck disable=SC2088
 		rc_file="~/.zshrc"
-		export_cmd="export ASDF_DATA_DIR=\"$asdf_data_dir\""
 		;;
 	*/bash)
 		# shellcheck disable=SC2088
 		rc_file="~/.bashrc"
-		export_cmd="export ASDF_DATA_DIR=\"$asdf_data_dir\""
 		;;
 	*/fish)
 		# shellcheck disable=SC2088
 		rc_file="~/.config/fish/config.fish"
-		export_cmd="set -x ASDF_DATA_DIR \"$asdf_data_dir\""
 		;;
 	*)
 		rc_file="your shell config file"
-		export_cmd="export ASDF_DATA_DIR=\"$asdf_data_dir\""
 		return
 		;;
 	esac
 
-	step=1
-	if [ -z "${ASDF_DATA_DIR:-}" ]; then
-		cat <<EOF
-  $step. Add the following line to your shell config ($rc_file):
-
-     $export_cmd
-
-EOF
-
-		step=$((step + 1))
-	fi
-
 	cat <<EOF
-  $step. Using visudo, add the following lines to /etc/sudoers.d/01-asdf or /etc/sudoers:
+  1. Ensure you have the following line in your shell config ($rc_file):
+
+     For asdf 0.16 and later:
+     $(get_export_cmd "ASDF_DATA_DIR" "$asdf_data_dir")
+
+     For asdf 0.15 and earlier:
+     $(get_export_cmd "ASDF_DIR" "$asdf_data_dir")
+
+     Your asdf version is $(asdf version).
+
+  2. Using visudo, add the following lines to /etc/sudoers.d/01-asdf or /etc/sudoers:
 
      Defaults:$USER    secure_path="$asdf_data_dir/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
      Defaults:$USER    env_keep += "ASDF_DATA_DIR"
 
 EOF
+}
+
+get_export_cmd() {
+	case "$SHELL" in
+	*/fish)
+		echo "set -x $1 \"$2\""
+		;;
+	*)
+		echo "export $1=\"$2\""
+		;;
+	esac
 }
