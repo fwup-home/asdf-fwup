@@ -56,20 +56,23 @@ fwup --version
 
 Check the [asdf](https://github.com/asdf-vm/asdf) and [mise](https://mise.jdx.dev/about.html) instructions on how to install & manage versions.
 
-### Usage with `sudo`
+### Usage with `sudo` on Linux
 
-By default, `sudo` will override your `PATH`, which will prevent `asdf` from working. One workaround for this
-is to use the absolute path to the `fwup` binary like so:
+By default, `sudo` will override your `PATH`, which will prevent `asdf` from working. The quickest
+workaround for this is to use the absolute path to the `fwup` binary like so:
 
 ```shell
 sudo $(asdf which fwup) --version
 ```
 
-For a more permanent solution that will work with other `asdf`-managed tools, you can modify your `sudoers`
-policy by running `visudo /etc/sudoers.d/01-asdf` and adding the following:
+For a more permanent solution that will work with other `asdf`-managed tools, you can modify your
+`sudoers` policy by following these steps:
 
-```
-# Replace your username below. Additionally, if you use an alternative ASDF_DATA_DIR,
-# be sure to modify the path below.
-Defaults:YOUR_USERNAME secure_path = /home/YOUR_USERNAME/.asdf/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-```
+1. Ensure you have an explicit `ASDF_DATA_DIR` set in your environment. You can
+   check this by running `echo $ASDF_DATA_DIR`. If nothing is printed, add
+   `export ASDF_DATA_DIR="$HOME/.asdf"` to your shell config (`~/.bashrc`, `~/.zshrc`, etc.)
+2. Run `sudo visudo /etc/sudoers.d/01-asdf` and adding the following:
+   ```
+   Defaults:YOUR_USERNAME secure_path = /home/YOUR_USERNAME/.asdf/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   Defaults:YOUR_USERNAME env_keep += "ASDF_DATA_DIR"
+   ```

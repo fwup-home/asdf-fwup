@@ -84,8 +84,83 @@ install_version() {
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
+		echo ""
+
+		post_install_instructions
 	) || (
 		rm -rf "$install_path"
 		fail "An error occurred while installing $TOOL_NAME $version."
 	)
+}
+
+post_install_instructions() {
+	# This isn't needed on macOS.
+	if [ "$OS" = "Darwin" ]; then
+		return
+	fi
+
+	asdf_data_dir="${ASDF_DATA_DIR:-$HOME/.asdf}"
+
+	cat <<EOF
+******* IMPORTANT: Usage with sudo ********
+By default, tools installed with asdf are not available when using sudo since
+sudo resets some/all of the shell environment.
+
+A common workaround is to include the -E option to sudo, which preserves the
+environment. However, this does not preserve the PATH variable, so you will need
+to invoke $TOOL_NAME with the absolute path like so:
+
+sudo -E \$(asdf which $TOOL_NAME) <fwup-arguments>
+
+Alternatively, you can modify your sudoers policy so that it sets your PATH
+correctly. This is a more permanent solution that should also work for other
+asdf-managed tools.
+
+EOF
+
+	# if the ASDF_DATA_DIR variable exists, then add instructions to add it to
+	# the shell config
+
+	case "$SHELL" in
+	*/zsh)
+		# shellcheck disable=SC2088
+		rc_file="~/.zshrc"
+		export_cmd="export ASDF_DATA_DIR=\"$asdf_data_dir\""
+		;;
+	*/bash)
+		# shellcheck disable=SC2088
+		rc_file="~/.bashrc"
+		export_cmd="export ASDF_DATA_DIR=\"$asdf_data_dir\""
+		;;
+	*/fish)
+		# shellcheck disable=SC2088
+		rc_file="~/.config/fish/config.fish"
+		export_cmd="set -x ASDF_DATA_DIR \"$asdf_data_dir\""
+		;;
+	*)
+		rc_file="your shell config file"
+		export_cmd="export ASDF_DATA_DIR=\"$asdf_data_dir\""
+		return
+		;;
+	esac
+
+	step=1
+	if [ -z "${ASDF_DATA_DIR:-}" ]; then
+		cat <<EOF
+  $step. Add the following line to your shell config ($rc_file):
+
+     $export_cmd
+
+EOF
+
+		step=$((step + 1))
+	fi
+
+	cat <<EOF
+  $step. Using visudo, add the following lines to /etc/sudoers.d/01-asdf or /etc/sudoers:
+
+     Defaults:$USER    secure_path="$asdf_data_dir/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+     Defaults:$USER    env_keep += "ASDF_DATA_DIR"
+
+EOF
 }

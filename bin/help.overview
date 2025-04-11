@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=./lib/utils.bash
+source "${plugin_dir}/lib/utils.bash"
+
+cat <<EOF
+fwup is a configurable image-based software update utility for embedded Linux-based
+systems. It primarily supports software upgrade strategies that update entire root
+filesystem images at once. This includes strategies like swapping back and forth
+between A and B partitions, recovery partitions, and various trial update/failback
+scenarios.
+
+EOF
+
+post_install_instructions
