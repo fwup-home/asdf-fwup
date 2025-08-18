@@ -16,7 +16,7 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: sudo apt-get install autoconf pkg-config help2man libconfuse-dev libarchive-dev
         if: matrix.os == 'ubuntu-latest'
       - run: brew install confuse libarchive pkg-config automake
