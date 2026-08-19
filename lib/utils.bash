@@ -44,6 +44,16 @@ download_release() {
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
+install_cleanup_path=""
+install_cleanup_version=""
+cleanup_failed_install() {
+	if [ -n "$install_cleanup_path" ]; then
+		rm -rf "$install_cleanup_path"
+	fi
+
+	fail "An error occurred while installing $TOOL_NAME $install_cleanup_version."
+}
+
 install_version() {
 	local install_type="$1"
 	local version="$2"
@@ -52,6 +62,10 @@ install_version() {
 	if [ "$install_type" != "version" ]; then
 		fail "asdf-$TOOL_NAME supports release installs only"
 	fi
+
+	install_cleanup_path="$install_path"
+	install_cleanup_version="$version"
+	trap cleanup_failed_install EXIT
 
 	(
 		cd "$ASDF_DOWNLOAD_PATH"
@@ -82,15 +96,16 @@ install_version() {
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
-
-		echo "$TOOL_NAME $version installation was successful!"
-		echo ""
-
-		post_install_instructions
-	) || (
-		rm -rf "$install_path"
-		fail "An error occurred while installing $TOOL_NAME $version."
 	)
+
+	# The install is complete and verified here, so remove the cleanup trap. Nothing
+	# that happens after this is worth dying for.
+	trap - EXIT
+
+	echo "$TOOL_NAME $version installation was successful!"
+	echo ""
+
+	post_install_instructions || true
 }
 
 post_install_instructions() {
