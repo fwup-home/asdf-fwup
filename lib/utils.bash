@@ -118,6 +118,8 @@ EOF
 
 	asdf_data_dir="${ASDF_DATA_DIR:-${ASDF_DIR:-$HOME/.asdf}}"
 
+	username="${USER:-YOUR_USERNAME_HERE}"
+
 	case "$SHELL" in
 	*/zsh)
 		# shellcheck disable=SC2088
@@ -150,8 +152,8 @@ EOF
 
   2. Using visudo, add the following lines to /etc/sudoers.d/01-asdf or /etc/sudoers:
 
-     Defaults:$USER    secure_path="$asdf_data_dir/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-     Defaults:$USER    env_keep += "ASDF_DIR ASDF_DATA_DIR"
+     Defaults:$username    secure_path="$asdf_data_dir/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+     Defaults:$username    env_keep += "ASDF_DIR ASDF_DATA_DIR"
 
 EOF
 }
