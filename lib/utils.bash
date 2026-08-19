@@ -70,7 +70,7 @@ install_version() {
 			;;
 		esac
 
-		make -j4
+		make -j"${ASDF_CONCURRENCY:-4}"
 
 		if ! ./src/fwup --version; then
 			fail "Could not execute fwup after building"
