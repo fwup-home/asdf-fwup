@@ -135,7 +135,6 @@ EOF
 		;;
 	*)
 		rc_file="your shell config file"
-		return
 		;;
 	esac
 
@@ -147,8 +146,6 @@ EOF
 
      For asdf 0.15 and earlier:
      $(get_export_cmd "ASDF_DIR" "$asdf_data_dir")
-
-     Your asdf version is $(asdf version).
 
   2. Using visudo, add the following lines to /etc/sudoers.d/01-asdf or /etc/sudoers:
 
